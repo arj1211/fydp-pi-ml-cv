@@ -1,0 +1,9 @@
+[submodule "archive/archive/LCCV"]
+	path = archive/archive/LCCV
+	url = https://github.com/Qengineering/LCCV
+[submodule "archive/archive/simple-cam"]
+	path = archive/archive/simple-cam
+	url = https://github.com/kbingham/simple-cam
+[submodule "Midasv2_1_small-TFLite-Inference"]
+	path = Midasv2_1_small-TFLite-Inference
+	url = https://github.com/ibaiGorordo/Midasv2_1_small-TFLite-Inference

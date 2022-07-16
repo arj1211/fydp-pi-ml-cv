@@ -1,4 +1,4 @@
 rpi_py_env/
 pas.txt
 .vscode/
-archive/
+#archive/
