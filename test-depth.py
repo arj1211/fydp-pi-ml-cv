@@ -10,7 +10,7 @@ import numpy as np
 # url, filename = ("https://github.com/intel-isl/MiDaS/releases/download/v2_1/model_opt.tflite", "model_opt.tflite")
 # urllib.request.urlretrieve(url, filename)
 
-COLORMODE = False
+COLORMODE = True
 # input
 # img = cv2.imread('dog.jpg')
 cap = cv2.VideoCapture(0)
@@ -83,7 +83,11 @@ while cap.isOpened():
             i += win_sz
     
     # resize output
-    img_out = tf.image.resize(img_out.repeat(3).reshape((img_out.shape[0], img_out.shape[1], 3)), [img_out.shape[0]//2, img_out.shape[1]//2], method='bicubic', preserve_aspect_ratio=False).numpy().astype('uint8')
+    if not COLORMODE:
+        img_out = tf.image.resize(img_out.repeat(3).reshape((img_out.shape[0], img_out.shape[1], 3)), [img_out.shape[0]//2, img_out.shape[1]//2], method='bicubic', preserve_aspect_ratio=False).numpy().astype('uint8')
+    else:
+        img_out = tf.image.resize(img_out, [img_out.shape[0]//2, img_out.shape[1]//2], method='bicubic', preserve_aspect_ratio=False).numpy().astype('uint8')
+    
     orig_img = tf.image.resize(orig_img, [orig_img.shape[0]//2,orig_img.shape[1]//2], method='bicubic', preserve_aspect_ratio=False).numpy().astype('uint8')
     # cv2.imwrite("output.png", img_out)
     # cv2.imshow("output.png", img_out)
