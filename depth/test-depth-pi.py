@@ -38,6 +38,13 @@ def hex2rgb(color_in_hex: int):
 colors = [0x65655E, 0x7D80DA, 0xB0A3D4, 0xCEBACF, 0xC6AFB1]
 colors_rgb = list(map(lambda c: np.array(hex2rgb(c)), colors))
 
+# load model
+interpreter = tf.lite.Interpreter(model_path="model_opt.tflite")
+interpreter.allocate_tensors()
+input_details = interpreter.get_input_details()
+output_details = interpreter.get_output_details()
+input_shape = input_details[0]['shape']
+
 while cap.isOpened() and frame_cnt < cap_frames:
 
     suc, img = cap.read()
@@ -58,13 +65,6 @@ while cap.isOpened() and frame_cnt < cap_frames:
     img_input = (img_input - mean) / std
     reshape_img = img_input.reshape(1,sz,sz,3)
     tensor = tf.convert_to_tensor(reshape_img, dtype=tf.float32)
-
-    # load model
-    interpreter = tf.lite.Interpreter(model_path="model_opt.tflite")
-    interpreter.allocate_tensors()
-    input_details = interpreter.get_input_details()
-    output_details = interpreter.get_output_details()
-    input_shape = input_details[0]['shape']
 
     # inference
     interpreter.set_tensor(input_details[0]['index'], tensor)
