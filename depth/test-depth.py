@@ -10,13 +10,21 @@ import numpy as np
 # url, filename = ("https://github.com/intel-isl/MiDaS/releases/download/v2_1/model_opt.tflite", "model_opt.tflite")
 # urllib.request.urlretrieve(url, filename)
 
-COLORMODE = True
+COLORMODE = False
 # input
 # img = cv2.imread('dog.jpg')
 cap = cv2.VideoCapture(0)
 sz = 256
 n_colors = 4
 win_sz = sz//n_colors
+
+fourcc = cv2.VideoWriter_fourcc(*'avc1')
+w = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
+h = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
+out = cv2.VideoWriter('output.mp4', fourcc, 20.0, (int(w/2),int(h/2)))
+
+frame_cnt = 0
+total_frames = 20*5
 
 def hex2rgb(color_in_hex: int):
     RGB = []
@@ -28,7 +36,7 @@ def hex2rgb(color_in_hex: int):
 colors = [0x65655E, 0x7D80DA, 0xB0A3D4, 0xCEBACF, 0xC6AFB1]
 colors_rgb = list(map(lambda c: np.array(hex2rgb(c)), colors))
 
-while cap.isOpened():
+while cap.isOpened() and frame_cnt < total_frames:
 
     suc, img = cap.read()
 
@@ -46,9 +54,9 @@ while cap.isOpened():
     img_input = (img_input - mean) / std
     reshape_img = img_input.reshape(1,sz,sz,3)
     tensor = tf.convert_to_tensor(reshape_img, dtype=tf.float32)
-
+    
     # load model
-    interpreter = tf.lite.Interpreter(model_path="model_opt.tflite")
+    interpreter = tf.lite.Interpreter(model_path="depth/model_opt.tflite")
     interpreter.allocate_tensors()
     input_details = interpreter.get_input_details()
     output_details = interpreter.get_output_details()
@@ -97,11 +105,15 @@ while cap.isOpened():
     cv2.imshow('object_detector', img_out)
     cv2.imshow('raw', orig_img)
 
+    out.write(img_out)
+    # frame_cnt += 1
+
     if cv2.waitKey(1) == 27:
       break
     # plt.imshow(img_out)
     # plt.show()
     
     # if cv2.waitKey(0): break
+out.release()
 cap.release()
 cv2.destroyAllWindows()
