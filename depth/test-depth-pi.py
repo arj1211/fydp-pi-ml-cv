@@ -46,6 +46,8 @@ while cap.isOpened() and frame_cnt < cap_frames:
 
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) / 255.0
 
+    img = cv2.flip(img, 0)
+
     img_resized = tf.image.resize(img, [sz,sz], method='bicubic', preserve_aspect_ratio=False)
     #img_resized = tf.transpose(img_resized, [2, 0, 1])
     img_input = img_resized.numpy()
