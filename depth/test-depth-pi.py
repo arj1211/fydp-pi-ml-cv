@@ -10,7 +10,7 @@ import numpy as np
 # url, filename = ("https://github.com/intel-isl/MiDaS/releases/download/v2_1/model_opt.tflite", "model_opt.tflite")
 # urllib.request.urlretrieve(url, filename)
 
-COLORMODE = True
+COLORMODE = False
 # input
 # img = cv2.imread('dog.jpg')
 cap = cv2.VideoCapture(0)
