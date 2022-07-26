@@ -21,7 +21,7 @@ win_sz = sz//n_colors
 fourcc = cv2.VideoWriter_fourcc(*'avc1')
 w = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
 h = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
-out = cv2.VideoWriter('output.mp4', fourcc, 20.0, (int(w/2),int(h/2)))
+out = cv2.VideoWriter('output_demo.mp4', fourcc, 20.0, (int(w/2),int(h/2)))
 
 frame_cnt = 0
 total_frames = 20*5
