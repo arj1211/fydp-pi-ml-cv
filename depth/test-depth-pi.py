@@ -23,10 +23,10 @@ fourcc = cv2.VideoWriter_fourcc(*'XVID')
 #out = cv2.VideoWriter('output.avi', fourcc, 20.0, (360, 640))
 #out = cv2.VideoWriter('output.avi', fourcc, 20.0, (width//2,height//2))
 
-out = cv2.VideoWriter('output.avi', fourcc, 20.0, (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)//2),int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)//2)))
+out = cv2.VideoWriter('output_demo.avi', fourcc, 10.0, (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)//2),int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)//2)))
 
 frame_cnt = 0
-cap_frames = 20*2
+cap_frames = 10*4
 
 def hex2rgb(color_in_hex: int):
     RGB = []
@@ -53,7 +53,7 @@ while cap.isOpened() and frame_cnt < cap_frames:
 
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) / 255.0
 
-    img = cv2.flip(img, 0)
+    #img = cv2.flip(img, 0)
 
     img_resized = tf.image.resize(img, [sz,sz], method='bicubic', preserve_aspect_ratio=False)
     #img_resized = tf.transpose(img_resized, [2, 0, 1])
